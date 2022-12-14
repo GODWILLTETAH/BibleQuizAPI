@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section>
+        <div class="container">
+            <div class="user signinBox">
+                <div class="imgBox">
+                    <img src="img2/signinIMG.jpg" alt="">
+                </div>
+                <div class="formBox">
+                    <form action="/register">
+                        <h2>Create An Account</h2>
+                        <center><div class="errors"></div></center>
+                        <input type="text" required name="first_name" placeholder="First Name">
+                        <input type="text" required name="last_name" placeholder="Last Name">
+                        <input type="email" required name="email" placeholder="Enter Valid Email">
+                        <input type="password" minlength="6" required name="password" placeholder="Enter Password">
+                        <input type="submit" value="Sign Up">
+                        <p class="signup">Already have an Account? <a href="/login">Login</a></p>
+                    </form>
+                </div>
+            </div>
+            <div class="user signupBox">
+                <div class="formBox">
+                    <form action="/login" method="post">
+                        <!-- <h2>Login</h2>
+                        <input type="email" name="" placeholder="Enter Email" id="">
+                        <input type="password" name="" placeholder="Enter Password" id="">
+                        <input type="submit" value="Login">
+                        <p class="signup">Don't have an Account? <a href="#">Sign Up</a></p> -->
+                    </form>
+                </div>
+                <div class="imgBox">
+                    <img src="img2/signupIMG.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <script type="text/javascript">
+        function doToggle(){
+            var container = document.querySelector('.container');
+                container.classList.toggle('active')
+        }
+    </script> -->
+    <script>
+        const form = document.querySelector('form');
+        const errorMessage = document.querySelector('.errors');
+        //const passwordError = document.querySelector('.password.error');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            // reset errors
+            errorMessage.textContent = '';
+            //passwordError.textContent = '';
+            // get values
+            const first_name = form.first_name.value;
+            const last_name = form.last_name.value;
+            const email = form.email.value;
+            const password = form.password.value;
+            try {
+                const res = await fetch('/register', {
+                    method: 'POST',
+                    body: JSON.stringify({ first_name, last_name, email, password }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+                console.log(data);
+                if (data.errors) {
+                    errorMessage.textContent = data.errors.email || data.errors.first_name
+                  //passwordError.textContent = data.errors.password;
+                } else {
+                    location.assign('/login')
+                }
+                // if (data.user) {
+                //     location.assign('/login');
+                // }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
+    </script>
+</body>
+
+</html>

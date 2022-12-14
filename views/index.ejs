@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> 
+<link rel="stylesheet" href="../public/index/style.css">
+<link rel="stylesheet" href="../public/index/prism.css">
+<title>Api Docs</title>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- <div class="col-12 col-md-3 col-xl-2 sidebar">
+                <nav class="nav flex-column" style="position: fixed;">
+                <input class="form-control d-flex align-items-center" type="text" placeholder="Search" aria-label="Search">
+                <ul class="side-menu" id="side-menu">
+                </ul>
+                </nav>
+            </div> -->
+            <script>
+                let extend = document.getElementsByClassName('nav-link');
+                let active = []
+                    for(let i = 0; i< extend.length; i++){
+                        extend[i].addEventListener("click", function() {
+                           active = document.getElementsByClassName('nav-link active');
+                           console.log(active);
+                           for(let j=0; j<active.length;j++){
+                               active[j].classList.remove('active');
+                           }
+                        this.classList.add('active'); 
+                        let content = this.nextElementSibling;
+                        if(content.style.display === "block"){
+                            content.style.display = "none"
+                        }else {
+                            content.style.display = "block";
+                        }
+                    });
+                    }
+            </script>
+            <div class="d-none d-xl-block col-xl-2 bd-toc" id="toc">
+                <ul class="section-nav" id="section-nav">
+                </ul>
+            </div>
+            <main class="col-12 col-md-9 col-xl-8 contentp">
+                <section>
+                <h1 id="content">Welcome, <%= first_name %></h1>
+                
+                <p>Yes! You heard right this website has a public API. It can be used to receive personal data from the owner of this website as well as serverinformation from the server this webapplication is hosted. The documantion has some example code in different languages so its easy understandble for every developer. Enjoy! </p>
+                <h2>Get started</h2>
+                <p>The REST API provides public data accessible to any client aanonymously, as well as a authentification for the admin of the site only! For posting data to the server.</p>
+                <p>The REST API uses JSON exclusively as the request as well as response format, including errors. The responses are also fully dicoverable via hyperlinks when dealing with the responses. </p>
+                <h3>Data Endpoint Reference</h3> 
+ <div class="table-responsive">
+              <table class="table-bordered">
+                <thead class="black">
+                  <tr>
+                    <th>Resource</th>
+                    <th>Base Route</th>
+                    <th>Endpoint</th>
+                    <th>Info</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><a name="contactName"></a>About</td>
+                      <td><code>/api/about</code></td>
+                      <td>GET/POST</td>
+                      <td>Retrieve information about the website owner</td>
+                   </tr>
+                    <tr>
+                     <td><a name="contactUrl"></a>Serverinfo</td>
+                     <td><code>/api/serverinfo</code></td>
+                     <td>GET</td>
+                     <td>Receive information about the webserver this webservices is hosted on</td>
+                    </tr>
+               </tbody>
+               </table>
+                </div>
+                <h2>About: Get</h2>
+                <div class="get">
+                    <p>get</p> 
+                </div>
+                <pre><code class="language-own">https://floshodan.io/api/about</code></pre>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#curl">Curl</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#nodejs">NodeJS</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#python">Python</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="curl" class="container-fluid tab-pane active">
+        <pre><code class="language-shell">curl https://floshodan.io/api/about | jq '.'</code></pre>
+    </div>
+    <div id="nodejs" class="container-fluid tab-pane fade">
+        <pre><code class="language-javascript">const https = require('http');
+
+https.get('https://floshodan.io/api/about', (resp) => {
+  let data = '';
+
+  resp.on('data', (chunk) => {
+    data += chunk;
+  });
+
+  resp.on('end', () => {
+    console.log(JSON.parse(data).explanation);
+  });
+
+  // Handle error
+}).on("error", (err) => {
+  console.log("Error: " + err.message);
+});</code></pre>
+    </div>
+    <div id="python" class="container-fluid tab-pane fade">
+        <pre><code class="language-python">import requests
+
+response = requests.get('https://floshodan.io/api/about')
+json_response = response.json()
+print(json_response)
+
+        </code></pre>
+
+    </div>
+  </div> 
+                <div class="table-responsive">
+              <table class="table-bordered">
+                <thead class="black">
+                  <tr>
+                    <th>Field Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><a name="contactName"></a>name</td>
+                      <td><code>string</code></td>
+                      <td>The identifying name of the contact person/organization.</td>
+                   </tr>
+                    <tr>
+                     <td><a name="contactUrl"></a>url</td>
+                     <td><code>string</code></td>
+                     <td>The URL pointing to the contact information. MUST be in the format of a URL.</td>
+                    </tr>
+                     <tr>
+                       <td><a name="contactEmail"></a>email</td>
+                       <td><code>string</code></td>
+                       <td>The email address of the contact person/organization. MUST be in the format of an email address.</td>
+                     </tr>
+                  </tbody>
+               </table>
+                </div>
+               <pre><code class="language-json"> [
+    {
+        "firstname": "Florian",
+        "lastname": "Schneller",
+        "age": 25,
+        "weight": 65.3,
+        "height": 163,
+        "birthday": "1993-09-02",
+        "location": "127.0.0.1",
+        "email": "code@floshodan.io",
+        "pgp": "3821388123882382188123821833812",
+        "status": "Looking for Job",
+        "online": true
+    }
+]</code></pre>
+                </section>
+                <section id="2">
+                    <h1 id="section2">Examples</h1>
+               </section>
+               <section id="3">
+               </section>
+          </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script src="../public/index/prism.js"></script>
+<script src="../public/index/app.js"></script>
+</body>
+</html> 

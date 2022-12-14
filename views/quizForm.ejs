@@ -1,0 +1,185 @@
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  input[type=text],
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+  label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+  }
+
+  input[type=submit] {
+    background-color: #04AA6D;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+  }
+
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+
+  .container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+
+  .col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+  }
+
+  .col-75 {
+    float: left;
+    width: 75%;  
+    margin-top: 6px;
+  }
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+
+    .col-25,
+    .col-75,
+    input[type=submit] {
+      width: 100%;
+      margin-top: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+  <center>
+    <h2>New Bible Quiz</h2>
+    <p> <i>Fill The Form Below To Add A New Bible QUiz</i></p>
+  </center>
+  <div class="container">
+    <form action="/api/newQuiz">
+      <div class="row">
+        <div class="col-25">
+          <label for="lname">Correct Answer</label>
+        </div>
+        <div class="col-75">
+          <input type="text" name="correct_answer" placeholder="Correct Answer" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="lname">Option 1</label>
+        </div>
+        <div class="col-75">
+          <input type="text" name="option1" required placeholder="Option 1">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="lname">Option 2</label>
+        </div>
+        <div class="col-75">
+          <input type="text" name="option2" required placeholder="Option 2">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="lname">Option 3</label>
+        </div>
+        <div class="col-75">
+          <input type="text" name="option3" required placeholder="Option 3">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="country">Categories</label>
+        </div>
+        <div class="col-75">
+          <select id="country" name="category">
+            <option value="UnCategorized">Add Category</option>
+            <% category.forEach(function(category){%>
+              <option value="<%= category._id %>">
+                <%= category.name %>
+              </option>
+              <%})%>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="subject">Question</label>
+        </div>
+        <div class="col-75">
+          <textarea id="subject" name="question" required placeholder="Write something.." style="height:200px"></textarea>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <input type="submit" value="Submit">
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.querySelector('form');
+    //const errorMessage = document.querySelector('.errors');
+    //const passwordError = document.querySelector('.password.error');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // reset errors
+      //errorMessage.textContent = '';
+      //passwordError.textContent = '';
+      // get values
+      const category = form.category.value;
+      const correct_answer = form.correct_answer.value;
+      const question = form.question.value;
+      const incorrect_answers =[form.option1.value, form.option2.value, form.option3.value];
+
+      try {
+        const res = await fetch('/api/newQuiz', {
+          method: 'POST',
+          body: JSON.stringify({ category, correct_answer, question, incorrect_answers}),
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        const data = await res.json();
+        console.log(data);
+        if (data.errors) {
+          console.log(errors);
+          //errorMessage.textContent = data.errors.email || data.errors.password || data.errors.first_name ;
+          //passwordError.textContent = data.errors.password;
+        }
+        if (data.quiz) {
+          //location.assign('/api/newQuiz');
+          location.reload()
+        }
+      }
+      catch (err) {
+        console.log(err);
+      }
+    });
+  </script>
+
+</body>
+
+</html>

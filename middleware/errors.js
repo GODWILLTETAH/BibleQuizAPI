@@ -35,14 +35,14 @@ function errorHandler(err) {
   }
 
   // validation errors
-  if (err.message.includes('user validation failed')) {
-     console.log(err);
-    Object.values(err.errors).forEach(({ properties }) => {
-       //console.log(val);
-       //console.log(properties.message);
-      errors[properties.path] = properties.message;
-    });
-  }
+  // if (err.message.includes('user validation failed')) {
+  //    console.log(err);
+  //   Object.values(err.errors).forEach(({ properties }) => {
+  //      //console.log(val);
+  //      //console.log(properties.message);
+  //     errors[properties.path] = properties.message;
+  //   });
+  // }
  //end
  //return res.status(500).json({ message: err.message });
   

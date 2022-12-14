@@ -1,6 +1,5 @@
 const Quiz = require('../model/quiz');
 const Category = require ('../model/category')
-const { errorHandler } = require('../middleware/errors');
 
 module.exports.postQuiz = async (req, res) => {
   const {category, correct_answer, incorrect_answers, question} = req.body;
